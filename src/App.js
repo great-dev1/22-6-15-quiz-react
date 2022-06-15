@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './Pages/Home'
+import Quiz from './Pages/Quiz'
+import Results from './Pages/Results'
 
-function App() {
+export const QuizContext = createContext()
+
+const App = () => {
+  const [questions, setQuestions] = useState([])
+  const [score, setScore] = useState(0)
+
+  const fetchQuestions = async () => {
+    const res = await fetch('https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean')
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`)
+    }
+    const data = await res.json()
+    setQuestions(data.results)
+  }
+
+  useEffect(() => {
+    fetchQuestions()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <QuizContext.Provider value={{
+      questions,
+      score: [score, setScore]
+    }}>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/quiz' element={<Quiz />} />
+          <Route path='results' element={<Results />} />
+          <Route path='*' element={<Home />} />
+        </Routes>
+      </Router>
+    </QuizContext.Provider>
+  )
 }
 
-export default App;
+export default App
