@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: calc(100vh - 30px);
+  padding: 0 15px 30px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    display: block;
+    padding: 15px;
+  }
+}

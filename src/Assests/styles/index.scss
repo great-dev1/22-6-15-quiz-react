@@ -7,14 +7,6 @@ body {
   text-align: center;
 }
 
-p {
-  font-size: 30px;
-}
-
-.container {
-  padding: 15px;
-  .question {
-    padding: 40px 20px;
-    border: 1px solid black;
-  }
+* {
+  box-sizing: border-box;
 }

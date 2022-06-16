@@ -8,7 +8,6 @@ export const QuizContext = createContext()
 
 const App = () => {
   const [questions, setQuestions] = useState([])
-  const [score, setScore] = useState(0)
 
   const fetchQuestions = async () => {
     const res = await fetch('https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean')
@@ -24,10 +23,7 @@ const App = () => {
   }, [])
 
   return (
-    <QuizContext.Provider value={{
-      questions,
-      score: [score, setScore]
-    }}>
+    <QuizContext.Provider value={[questions, setQuestions]}>
       <Router>
         <Routes>
           <Route path='/' element={<Home />} />

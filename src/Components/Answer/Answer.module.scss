@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  max-width: 800px;
+  margin: auto;
+  text-align: left;
+  .sign {
+    margin: -10px 0;
+    font-size: 40px;
+  }
+  .question {
+    margin-left: 20px;
+    margin-top: 0;
+    font-size: 24px;
+  }
+}

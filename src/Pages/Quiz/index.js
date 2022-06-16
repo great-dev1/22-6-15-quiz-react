@@ -1,27 +1,50 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { QuizContext } from '../../App'
+import Layouts from '../../Layouts'
+import Title from '../../Components/Title'
+import Question from '../../Components/Question'
+import Pagination from '../../Components/Pagination'
 import Button from '../../Components/Button'
 
 const Quiz = () => {
-  const { questions, score } = useContext(QuizContext)
-  const [scoreValue, setScoreValue] = score
-  const [questionNumber, setQuestionNumber] = useState(0)
+  const [questions, setQuestions] = useContext(QuizContext)
+  const [questionIndex, setQuestionIndex] = useState(0)
+  const navigate = useNavigate()
 
-  console.log('QUESTIONS', questions)
-  console.log('SCORE', scoreValue)
-  console.log('QUESTION_NUMBER', questionNumber)
+  const evaluateAnswer = (userAnswer) => {
+    if (userAnswer === questions[questionIndex].correct_answer) {
+      questions[questionIndex] = {
+        ...questions[questionIndex],
+        isScored: true,
+      }
+    } else {
+      questions[questionIndex] = {
+        ...questions[questionIndex],
+        isScored: false,
+      }
+    }
+    setQuestions(questions)
+
+    if (questionIndex < 9) {
+      setQuestionIndex((prevIndex) => prevIndex + 1)
+    } else {
+      navigate('/results')
+    }
+  }
 
   return (
-    <div className='container'>
-      <h1>
-        {questions[questionNumber].category}
-      </h1>
-      <p className='question'>
-        {questions[questionNumber].question}
-      </p>
-      <Button caption='True'></Button>
-      <Button caption='FALSE'></Button>
-    </div>
+    <Layouts>
+      <Title>{questions[questionIndex].category}</Title>
+      <Question>{questions[questionIndex].question}</Question>
+      <Pagination>
+        {`${questionIndex + 1} of ${questions.length}`}
+      </Pagination>
+      <div>
+        <Button onClick={() => { evaluateAnswer('True') }}>True</Button>
+        <Button onClick={() => { evaluateAnswer('False') }}>False</Button>
+      </div>
+    </Layouts>
   )
 }
 
