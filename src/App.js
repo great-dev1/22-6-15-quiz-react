@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { fetchQuestions } from './Services/Apis'
 import Home from './Pages/Home'
 import Quiz from './Pages/Quiz'
 import Results from './Pages/Results'
@@ -9,17 +10,13 @@ export const QuizContext = createContext()
 const App = () => {
   const [questions, setQuestions] = useState([])
 
-  const fetchQuestions = async () => {
-    const res = await fetch('https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean')
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`)
-    }
-    const data = await res.json()
-    setQuestions(data.results)
+  const fetchData = async () => {
+    const questions = await fetchQuestions()
+    setQuestions(questions.results)
   }
 
   useEffect(() => {
-    fetchQuestions()
+    fetchData()
   }, [])
 
   return (
