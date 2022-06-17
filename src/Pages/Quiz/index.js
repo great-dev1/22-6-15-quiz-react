@@ -12,20 +12,23 @@ const Quiz = () => {
   const [questionIndex, setQuestionIndex] = useState(0)
   const navigate = useNavigate()
 
+  // evaluate a user answer if it is correct or not
   const evaluateAnswer = (userAnswer) => {
     if (userAnswer === questions[questionIndex].correct_answer) {
       questions[questionIndex] = {
         ...questions[questionIndex],
-        isScored: true,
+        isScored: true, // if the answer is correct, add/set 'isSocred' of the question object as true
       }
     } else {
       questions[questionIndex] = {
         ...questions[questionIndex],
-        isScored: false,
+        isScored: false,  // if the answer is incorrect, add/set 'isSocred' of the question object as false
       }
     }
     setQuestions(questions)
 
+    // if the current question is 10th, go to Results page
+    // else go to the next question
     if (questionIndex < 9) {
       setQuestionIndex((prevIndex) => prevIndex + 1)
     } else {

@@ -10,6 +10,7 @@ export const QuizContext = createContext()
 const App = () => {
   const [questions, setQuestions] = useState([])
 
+  // fetch 10 questions
   const fetchData = async () => {
     const questions = await fetchQuestions()
     setQuestions(questions.results)

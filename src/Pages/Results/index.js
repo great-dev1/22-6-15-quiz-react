@@ -10,16 +10,18 @@ const Results = () => {
   const [questions] = useContext(QuizContext)
   const navigate = useNavigate()
 
+  // calculate a score according to user answers
   const calculateScore = () => {
     let score = 0
-    questions.forEach((el) => {
-      if (el.isScored) {
+    questions.forEach((el) => {  // while iterating questions
+      if (el.isScored) {         // increase the score if the 'isScored' of a question is true
         score++
       }
     })
     return score
   }
 
+  // go to Home page and restart a quiz
   const restartQuiz = () => {
     navigate('/')
   }
