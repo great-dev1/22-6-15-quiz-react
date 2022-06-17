@@ -8,7 +8,8 @@ import Pagination from '../../Components/Pagination'
 import Button from '../../Components/Button'
 
 const Quiz = () => {
-  const [questions, setQuestions] = useContext(QuizContext)
+  const { quiz } = useContext(QuizContext)
+  const [questions, setQuestions] = quiz
   const [questionIndex, setQuestionIndex] = useState(0)
   const navigate = useNavigate()
 

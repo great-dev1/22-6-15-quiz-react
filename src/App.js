@@ -1,16 +1,15 @@
 import { createContext, useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { fetchQuestions } from './Services/Apis'
-import Home from './Pages/Home'
-import Quiz from './Pages/Quiz'
-import Results from './Pages/Results'
+import AppRoutes from './Routes'
+import Text from './Components/Text'
 
 export const QuizContext = createContext()
 
 const App = () => {
   const [questions, setQuestions] = useState([])
+  const [isStarted, setStatus] = useState(false)
 
-  // fetch 10 questions
+  // fetch 10 questions from server
   const fetchData = async () => {
     const questions = await fetchQuestions()
     setQuestions(questions.results)
@@ -21,16 +20,14 @@ const App = () => {
   }, [])
 
   return (
-    <QuizContext.Provider value={[questions, setQuestions]}>
-      <Router>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/quiz' element={<Quiz />} />
-          <Route path='results' element={<Results />} />
-          <Route path='*' element={<Home />} />
-        </Routes>
-      </Router>
-    </QuizContext.Provider>
+    questions.length > 0 ? (
+      <QuizContext.Provider value={{
+        quiz: [questions, setQuestions],
+        status: [isStarted, setStatus],
+      }}>
+        <AppRoutes></AppRoutes>
+      </QuizContext.Provider>
+    ) : <Text>Loading...</Text>
   )
 }
 

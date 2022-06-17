@@ -7,7 +7,9 @@ import Answer from '../../Components/Answer'
 import Button from '../../Components/Button'
 
 const Results = () => {
-  const [questions] = useContext(QuizContext)
+  const { quiz, status } = useContext(QuizContext)
+  const [questions, setQuestions] = quiz
+  const [isStarted, setStatus] = status
   const navigate = useNavigate()
 
   // calculate a score according to user answers
@@ -21,8 +23,9 @@ const Results = () => {
     return score
   }
 
-  // go to Home page and restart a quiz
+  // restart a quiz
   const restartQuiz = () => {
+    setStatus(false)
     navigate('/')
   }
 
